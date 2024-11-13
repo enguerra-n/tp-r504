@@ -1,0 +1,90 @@
+version QEMU : 7.2.0
+QEMU emulator version 7.2.0 (Debian 1:7.2+dfsg-5ubuntu2.4)
+Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
+
+Q1.7 - Afin de pouvoir controler ces outils par l’utilisateur courant (sans passer par "sudo"), il est né-
+cessaire d’ajouter ce dernier au groupe libvirt. Donner la commande permettant de vérifier que ce
+groupe existe : sudo getent group | grep libvirt
+
+
+Q1.8 - Donner la commande pour faire cet ajout : 
+sudo usermod -a -G libvirt enguerran
+newgrp libvirt
+
+id enguerran 
+uid=1009(enguerran) gid=1009(enguerran) groupes=1009(enguerran),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users),122(lpadmin),135(sambashare),140(docker),142(libvirt)
+
+Q1.9 - Installer ensuite Vagrant via le paquet correspondant, et noter la version installée 
+apt install vagrant
+
+
+
+
+
+Q2.1 - Chercher sur https://app.vagrantup.com/boxes/search une image d’une distribution Debian
+11, et noter son nom : generic/debian11
+
+
+donner les éléments à prendre en compte lors du choix d’une image : 
+    -nom de l'utilisateur
+    - nombre de download de l'image
+    -la dernière realse date 
+    - la disponibilité de la box 
+
+
+
+
+Q2.3 - Créer un dossier ~/tp-r504/TP5/vag1. Dans ce dossier, lancer une VM Debian11 avec les deux
+commandes Vagrant (voir slides CM).
+    vagrant init generic/debian11
+    vagrant up 
+Examiner la sortie console lors du lancement. Où est stocké l’image "libvirt" de l’OS :
+~/.vagrant.d/boxes/
+
+
+Q2.4 - Donner la taille occupée sur le disque par l’ensemble du dossier système "libvirt" correspondant
+(commande du) : 1.3G
+
+
+Q2.5 - Donner la taille occupée sur le disque par l’image "Vagrant" (voir slides de CM) : 1.3G
+
+
+Q2.6 - Se connecter à la VM en SSH. Quel est votre nom d’utilisateur ? Avec quel commande obtient-on
+cette information ?
+
+    vagrant -> commande whoami
+
+Q2.7 - Quel est le dossier courant ? Avec quelle commande obtient-on cette information ?
+    -> pwd -> /home/vagarnt
+
+
+Q2.8 - Toujours connecté, créer dans la VM dans le dossier ~/vagrant un fichier toto. Quitter la VM, et
+vérifier que le fichier est bien présent dans l’hôte.
+
+
+Q2.9 - Quelle est la commande qui affiche la liste des machines "Vagrant". Quel est le statut de celle
+que vous venez de quitter ?
+    vagrant global-status
+    running
+
+
+Q2.10 - Vagrant a crée dans le dossier un dossier caché. Quel taille occupe-t-il sur le disque ?
+    -64K
+
+Q2.11 - Détruisez la VM. La taille du dossier caché a-t-elle significativement changé ?
+    oui
+
+3 Provisionnement d’application
+
+
+Q3.1 - Dans votre dossier TP5/vag1, créer un fichier index.html minimal (mais conforme).
+
+
+Q3.2 - Voir dans les slides de cours la partie "provisionnement".
+
+
+Q3.3 - Editer le "Vagrantfile" présent dans TP5/vag1 et ajoutez-y la copie de ce fichier index.html vers
+la VM (sans préciser de chemin dans celle ci). Puis lancer la VM et s’y connecter. Où le fichier a-t-il
+été placé ?
+
+config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
